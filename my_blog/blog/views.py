@@ -6,3 +6,7 @@ from django.shortcuts import render
 
 def index(request):
     return HttpResponse("There gonna be my blog's home page")
+
+
+def detail(request, pk):
+    return HttpResponse("There gonna be article's full text")
