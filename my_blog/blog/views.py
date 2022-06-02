@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Article
 
 
@@ -11,5 +11,7 @@ class IndexView(ListView):
     template_name = 'blog/index.html'
 
 
-def detail(request, pk):
-    return HttpResponse("There gonna be article's full text")
+class ArticleDetailView(DetailView):
+    model = Article
+    context_object_name = 'article'
+    template_name = 'blog/detail.html'
