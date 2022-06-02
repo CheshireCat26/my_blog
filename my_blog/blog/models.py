@@ -8,3 +8,6 @@ class Article(models.Model):
     text = models.TextField()
     pub_date = models.DateTimeField()
     last_edit_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
