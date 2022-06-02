@@ -1,11 +1,14 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.views.generic import ListView
+from .models import Article
 
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse("There gonna be my blog's home page")
+class IndexView(ListView):
+    model = Article
+    context_object_name = 'article_list'
+    template_name = 'blog/index.html'
 
 
 def detail(request, pk):

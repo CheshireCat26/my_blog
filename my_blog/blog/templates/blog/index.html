@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My blog's home page</title>
+</head>
+<body>
+  {% for article in article_list %}
+    <li>{{ article.title }}</li>
+  {% endfor %}
+</body>
+</html>
