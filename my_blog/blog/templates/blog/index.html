@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My blog's home page</title>
-</head>
-<body>
-  {% for article in article_list %}
-    <ul>
-        <li><a href="/blog/{{ article.id }}">{{ article.title }}</a></li>
-        <p>{{article.text|truncatechars:100}}</p>
-    </ul>
+{% extends "blog/base.html" %}
+
+{% block title %}My blog's home page{% endblock %}
+
+{% block content %}
+    {% for article in article_list %}
+        <ul>
+            <li><a href="/blog/{{ article.id }}">{{ article.title }}</a></li>
+            <p>{{article.text|truncatechars:100}}</p>
+        </ul>
   {% endfor %}
-</body>
-</html>
+{% endblock %}
