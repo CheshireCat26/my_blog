@@ -5,7 +5,7 @@
 {% block content %}
     {% for article in article_list %}
         <ul>
-            <li><a href="/blog/{{ article.id }}">{{ article.title }}</a></li>
+            <li><a href="{% url 'blog:detail' article.id %}">{{ article.title }}</a></li>
             <p>{{article.text|truncatechars:100}}</p>
         </ul>
   {% endfor %}
