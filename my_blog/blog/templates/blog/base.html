@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title%} My blog {% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/style.css' %}">
 </head>
 <body>
-  <div id="sidebar">
-    <ul>
-      <li><a href="{% url 'blog:index' %}">Home</a></li>
-    </ul>
-  </div>
+    <nav class="nav">
+        <ul class="nav">
+            <li class="nav"><a href="{% url 'blog:index' %}">Home</a></li>
+        </ul>
+    </nav>
 
   <div id="content">
       {% block content %} {% endblock %}
