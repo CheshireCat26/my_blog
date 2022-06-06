@@ -10,8 +10,15 @@
     <nav class="nav">
         <ul class="nav">
             <li class="nav"><a href="{% url 'blog:index' %}">Home</a></li>
+
+            {% if not user.is_authenticated %}
             <li class="nav"><a href="{% url 'blog:register' %}">SingUp</a></li>
             <li class="nav"><a href="{% url 'blog:login' %}">LogIn</a></li>
+            {% endif %}
+
+            {% if user.is_authenticated %}
+                <li class="nav"><b>Welcome, {{ user.username }}</b></li>
+            {% endif %}
         </ul>
     </nav>
 
