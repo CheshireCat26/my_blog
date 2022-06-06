@@ -4,9 +4,7 @@
 
 {% block content %}
     {% for article in article_list %}
-        <ul>
-            <li><a href="{% url 'blog:detail' article.id %}">{{ article.title }}</a></li>
-            <p>{{article.text|truncatechars:100}}</p>
-        </ul>
+        <h1><a href="{% url 'blog:detail' article.id %}">{{ article.title }}</a></h1>
+        <p>{{article.text|truncatechars:100}}</p>
   {% endfor %}
 {% endblock %}
