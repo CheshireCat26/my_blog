@@ -17,6 +17,7 @@
             {% endif %}
 
             {% if user.is_authenticated %}
+                <li class="nav"><a href="{% url 'blog:logout' %}">LogOut</a></li>
                 <li class="nav"><b class="welcome_user">Welcome, {{ user.username }}</b></li>
             {% endif %}
         </ul>
