@@ -19,6 +19,9 @@
         {% endif %}
 
         {% if user.is_authenticated %}
+            {% if user.is_superuser %}
+                <li><a href="{% url 'admin:index' %}">Admin panel</a></li>
+            {% endif %}
             <li><a href="{% url 'blog:logout' %}">LogOut</a></li>
             <li><b>Welcome, {{ user.username }}</b></li>
         {% endif %}
