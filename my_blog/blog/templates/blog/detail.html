@@ -3,8 +3,10 @@
 {% block title %}{{article.title}}{% endblock %}
 
 {% block content %}
-  <h1>{{ article.title }}</h1>
-  <p>{{ article.text }}</p>
-  <p>Publication date: {{ article.pub_date }}</p>
-  <p>Last edited date: {{ article.last_edit_date }}</p>
+    <article>
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.text }}</p>
+        <p>Publication date: {{ article.pub_date }}</p>
+        <p>Last edited date: {{ article.last_edit_date }}</p>
+    </article>
 {% endblock %}
