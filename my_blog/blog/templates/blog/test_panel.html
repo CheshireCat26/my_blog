@@ -1,0 +1,9 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <form method="POST">
+        {% csrf_token %}
+        <input type="submit" name="info_message" value="Test info message">
+        <input type="submit" name="error_message" value="Test error message">
+    </form>
+{% endblock %}

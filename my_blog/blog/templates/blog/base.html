@@ -27,6 +27,7 @@
     {% if user.is_superuser %}
         <ul id="admin_nav">
             <li><a href="{% url 'admin:index' %}">Admin panel</a></li>
+            <li><a href="{% url 'blog:test_panel' %}">Test Panel</a></li>
         </ul>
     {% endif %}
 </nav>

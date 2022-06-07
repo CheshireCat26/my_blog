@@ -8,5 +8,6 @@ urlpatterns = [
     path('<int:pk>/', views.ArticleDetailView.as_view(), name='detail'),
     path('register/', views.register, name='register'),
     path('login/', views.login_request, name='login'),
-    path('logout/', views.logout_request, name='logout')
+    path('logout/', views.logout_request, name='logout'),
+    path('test_panel/', views.test_panel, name='test_panel')
 ]

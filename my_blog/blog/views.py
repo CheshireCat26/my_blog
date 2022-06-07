@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView
 from .models import Article
@@ -60,3 +59,11 @@ def logout_request(request):
     logout(request)
     messages.info(request, "You have successfully logged out")
     return redirect('blog:index')
+
+
+def test_panel(request):
+    if 'info_message' in request.POST.keys():
+        messages.info(request, "Test info message")
+    elif 'error_message' in request.POST.keys():
+        messages.error(request, "Test error message")
+    return render(request, 'blog/test_panel.html')
