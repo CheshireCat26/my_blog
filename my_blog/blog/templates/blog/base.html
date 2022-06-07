@@ -8,34 +8,33 @@
     <title>{% block title%} My blog {% endblock %}</title>
 </head>
 <body>
-    <div class="nav_bar">
-        <nav>
-            <ul>
-                <li><a href="{% url 'blog:index' %}">Home</a></li>
 
-                {% if not user.is_authenticated %}
-                <li><a href="{% url 'blog:register' %}">SingUp</a></li>
-                <li><a href="{% url 'blog:login' %}">LogIn</a></li>
-                {% endif %}
+<nav>
+    <ul>
+        <li><a href="{% url 'blog:index' %}">Home</a></li>
 
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'blog:logout' %}">LogOut</a></li>
-                    <li><b class="welcome_user">Welcome, {{ user.username }}</b></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </div>
+        {% if not user.is_authenticated %}
+            <li><a href="{% url 'blog:register' %}">SingUp</a></li>
+            <li><a href="{% url 'blog:login' %}">LogIn</a></li>
+        {% endif %}
 
-    {% if messages %}
-        <ul class="messages">
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'blog:logout' %}">LogOut</a></li>
+            <li><b class="welcome_user">Welcome, {{ user.username }}</b></li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% if messages %}
+    <ul class="messages">
         {% for message in messages %}
             <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
-        </ul>
-    {% endif %}
+    </ul>
+{% endif %}
 
-  <div id="content">
-      {% block content %} {% endblock %}
-  </div>
+<div id="content">
+    {% block content %} {% endblock %}
+</div>
 </body>
 </html>
