@@ -1,0 +1,56 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    color: white;
+}
+
+a:visited{
+    color: white;
+}
+
+p.info, p.error {
+    border-style: solid;
+    border-width: medium;
+    border-radius: 12px;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+
+    text-align: center;
+}
+
+p.info {
+    border-color: gray;
+}
+
+p.error {
+    border-color: red;
+}
+
+nav li {
+    list-style-type: none;
+}
+
+nav ul {
+    padding: 0;
+    margin: 0;
+}
+
+nav li a:link, a:visited{
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 25px;
+    background-color: rgba(0, 0, 255, 0.32);
+    width: 200px;
+    max-width: 50%;
+
+}
+
+nav li a:hover {
+    background-color: blue;
+}
