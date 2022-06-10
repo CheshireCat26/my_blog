@@ -32,27 +32,31 @@ p.error {
 }
 
 nav {
-    list-style-type: none;
-    text-align: center;
-    margin: 0;
-    padding: 0;
+    display: block;
 }
 
 nav ul {
-    display: inline-block;
+  list-style-type: none;
+  margin: 5px;
+  padding: 0;
+  overflow: hidden;
 }
 
 nav li {
-    display: inline-block;
+  float: left;
+}
+
+nav li a {
+  display: block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
 nav li a:link, a:visited{
     text-align: center;
     text-decoration: none;
-    padding: 14px 25px;
     background-color: rgba(0, 0, 255, 0.32);
-    width: 200px;
-    max-width: 50%;
 
 }
 
