@@ -20,7 +20,7 @@
 
         {% if user.is_authenticated %}
             <li><a href="{% url 'blog:logout' %}">LogOut</a></li>
-            <li><b>Welcome, {{ user.username }}</b></li>
+            <li><a href="">{{ user.username }}</a></li>
         {% endif %}
     </ul>
 

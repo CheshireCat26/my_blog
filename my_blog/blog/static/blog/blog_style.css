@@ -31,17 +31,22 @@ p.error {
     border-color: red;
 }
 
-nav li {
+nav {
     list-style-type: none;
+    text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 nav ul {
-    padding: 0;
-    margin: 0;
+    display: inline-block;
+}
+
+nav li {
+    display: inline-block;
 }
 
 nav li a:link, a:visited{
-    display: inline-block;
     text-align: center;
     text-decoration: none;
     padding: 14px 25px;
