@@ -11,25 +11,25 @@
     <title>{% block title%} My blog {% endblock %}</title>
 </head>
 <body class="container p-5 my-5 bg-dark text-white">
-    <nav>
-        <ul id="common_nav">
-            <li><a href="{% url 'blog:index' %}">Home</a></li>
+    <nav class="navbar navbar-expand-sm bg-secondary navbar-dark">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="{% url 'blog:index' %}">Home</a></li>
 
             {% if not user.is_authenticated %}
-                <li><a href="{% url 'blog:register' %}">SingUp</a></li>
-                <li><a href="{% url 'blog:login' %}">LogIn</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'blog:register' %}">SingUp</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'blog:login' %}">LogIn</a></li>
             {% endif %}
 
             {% if user.is_authenticated %}
-                <li><a href="{% url 'blog:logout' %}">LogOut</a></li>
-                <li><a href="">{{ user.username }}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'blog:logout' %}">LogOut</a></li>
+                <li class="nav-item"><a class="nav-link" href="">{{ user.username }}</a></li>
             {% endif %}
         </ul>
 
         {% if user.is_superuser %}
-            <ul id="admin_nav">
-                <li><a href="{% url 'admin:index' %}">Admin panel</a></li>
-                <li><a href="{% url 'blog:test_panel' %}">Test Panel</a></li>
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">Admin panel</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'blog:test_panel' %}">Test Panel</a></li>
             </ul>
         {% endif %}
     </nav>
