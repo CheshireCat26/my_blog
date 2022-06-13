@@ -25,6 +25,9 @@ class ArticleDetailView(DetailView):
     context_object_name = 'article'
     template_name = 'blog/detail.html'
 
+    def get_queryset(self):
+        return Article.objects.filter(pub_date__lte=timezone.now())
+
 
 def register(request):
     if request.method == "POST":
