@@ -31,3 +31,9 @@ class IndexTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['article_list'], [])
 
+    def test_past_article(self):
+        """If there is article with pub_date <= now() it should be shown"""
+        article = Article.objects.create(pub_date=timezone.now())
+        response = self.client.get('/blog/')
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['article_list'], [article])
