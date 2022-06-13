@@ -63,7 +63,7 @@ class DetailTestCase(TestCase):
     def test_article_detail(self):
         """Detail page should show title and text of the article"""
         article = Article.objects.create(title="title", text='text', pub_date=timezone.now())
-        response = self.client.get(reverse('blog:detail', args=(article.id, )))
+        response = self.client.get(reverse('blog:detail', args=(article.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, article.title)
         self.assertContains(response, article.text)
@@ -71,5 +71,12 @@ class DetailTestCase(TestCase):
     def test_future_article(self):
         """Detail page should show 404 for article with pub_date in future"""
         article = Article.objects.create(pub_date=timezone.now() + timedelta(seconds=1))
-        response = self.client.get(reverse('blog:detail', args=(article.id, )))
+        response = self.client.get(reverse('blog:detail', args=(article.id,)))
         self.assertEqual(response.status_code, 404)
+
+
+class LoginTestCase(TestCase):
+    def test_anonymous_login(self):
+        """Login page should be available for anonymous user"""
+        response = self.client.get(reverse('blog:login'))
+        self.assertEqual(response.status_code, 200)
