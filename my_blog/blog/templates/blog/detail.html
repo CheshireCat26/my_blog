@@ -3,10 +3,13 @@
 {% block title %}{{article.title}}{% endblock %}
 
 {% block content %}
-    <article class="card-1 p-2">
+    <article class="card-1 p-2 pb-0">
         <header><h1>{{ article.title }}</h1></header>
         <p>{{ article.text }}</p>
-        <p>Publication date: {{ article.pub_date }}</p>
-        <p>Last edited date: {{ article.last_edit_date }}</p>
+
+        <div class="text-end pt-5">
+            <p>Publication date: {{ article.pub_date }}</p>
+            <p>Last edited date: {{ article.last_edit_date }}</p>
+        </div>
     </article>
 {% endblock %}
