@@ -80,3 +80,9 @@ class LoginTestCase(TestCase):
         """Login page should be available for anonymous user"""
         response = self.client.get(reverse('blog:login'))
         self.assertEqual(response.status_code, 200)
+
+    def test_logged_login(self):
+        """Login page shouldn't be available for logged-in user."""
+        self.client.login(username='testuser', password='CheshireKriper26')
+        response = self.client.get(reverse('blog:login'))
+        self.assertContains(response, "You're already logged-in")
