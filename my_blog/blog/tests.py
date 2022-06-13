@@ -69,3 +69,8 @@ class DetailTestCase(TestCase):
         self.assertContains(response, article.title)
         self.assertContains(response, article.text)
 
+    def test_future_article(self):
+        """Detail page should show 404 for article with pub_date in future"""
+        article = Article.objects.create(pub_date=timezone.now() + timedelta(seconds=1))
+        response = self.client.get(reverse('blog:detail', args=(article.id, )))
+        self.assertEqual(response.status_code, 404)
