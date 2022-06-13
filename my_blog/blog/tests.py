@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
@@ -83,6 +84,10 @@ class LoginTestCase(TestCase):
 
     def test_logged_login(self):
         """Login page shouldn't be available for logged-in user."""
-        self.client.login(username='testuser', password='CheshireKriper26')
+        user = User.objects.create(username='testuser')
+        user.set_password('12345')
+        user.save()
+
+        self.client.login(username='testuser', password='12345')
         response = self.client.get(reverse('blog:login'))
         self.assertContains(response, "You're already logged-in")

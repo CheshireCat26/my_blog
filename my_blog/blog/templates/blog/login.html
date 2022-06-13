@@ -3,6 +3,9 @@
 
 {% block content %}
     <h1>Login</h1>
+    {% if user.is_authenticated %}
+    <p> You're already logged-in </p>
+    {% else %}
     <form method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}
@@ -10,4 +13,5 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         {% endbuttons %}
     </form>
+    {% endif %}
 {% endblock %}
