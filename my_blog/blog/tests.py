@@ -29,34 +29,34 @@ class ArticleTestCase(TestCase):
 class IndexTestCase(TestCase):
     def test_empty_index_page(self):
         """If there is no article index page should be empty"""
-        response = self.client.get('/blog/')
+        response = self.client.get(reverse('blog:index'))
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['article_list'], [])
 
     def test_past_article(self):
         """If there is article with pub_date <= now() it should be shown"""
         article = Article.objects.create(pub_date=timezone.now())
-        response = self.client.get('/blog/')
+        response = self.client.get(reverse('blog:index'))
         self.assertQuerysetEqual(response.context['article_list'], [article])
 
     def test_future_article(self):
         """Articles with pub_date in future shouldn't be appeared in index page"""
         article = Article.objects.create(pub_date=timezone.now() + timedelta(seconds=1))
-        response = self.client.get('/blog/')
+        response = self.client.get(reverse('blog:index'))
         self.assertQuerysetEqual(response.context['article_list'], [])
 
     def test_future_and_past_article(self):
         """If there is future and past article only past should be appeared"""
         article_future = Article.objects.create(pub_date=timezone.now() + timedelta(seconds=1))
         article_past = Article.objects.create(pub_date=timezone.now() - timedelta(seconds=1))
-        response = self.client.get('/blog/')
+        response = self.client.get(reverse('blog:index'))
         self.assertQuerysetEqual(response.context['article_list'], [article_past])
 
     def test_multiply_article(self):
         """Index page should display all available past article"""
         article_1 = Article.objects.create(pub_date=timezone.now() - timedelta(seconds=1))
         article_2 = Article.objects.create(pub_date=timezone.now() - timedelta(days=15))
-        response = self.client.get('/blog/')
+        response = self.client.get(reverse('blog:index'))
         self.assertQuerysetEqual(response.context['article_list'], [article_1, article_2], ordered=False)
 
 
