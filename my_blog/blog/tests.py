@@ -16,3 +16,8 @@ class ArticleTestCase(TestCase):
         """Articles with pub_date in future isn't add recently"""
         article = Article(pub_date=timezone.now() + timedelta(seconds=1))
         self.assertEqual(article.is_add_recently(), False)
+
+    def test_is_add_recently_for_recent_article(self):
+        """Articles with pub_date within 7 days from now is recently"""
+        article = Article(pub_date=timezone.now() - timedelta(days=6, minutes=59, seconds=59))
+        self.assertEqual(article.is_add_recently(), True)
