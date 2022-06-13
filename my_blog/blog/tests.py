@@ -2,6 +2,7 @@ from django.test import TestCase
 from .models import Article
 from datetime import timedelta
 from django.utils import timezone
+from django.test import Client
 
 
 # Create your tests here.
@@ -21,3 +22,12 @@ class ArticleTestCase(TestCase):
         """Articles with pub_date within 7 days from now is recently"""
         article = Article(pub_date=timezone.now() - timedelta(days=6, minutes=59, seconds=59))
         self.assertEqual(article.is_add_recently(), True)
+
+
+class IndexTestCase(TestCase):
+    def test_empty_index_page(self):
+        """If there is no article index page should be empty"""
+        response = self.client.get('/blog/')
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['article_list'], [])
+
