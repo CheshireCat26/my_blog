@@ -4,7 +4,6 @@ from django.urls import reverse
 from .models import Article
 from datetime import timedelta
 from django.utils import timezone
-from django.test import Client
 
 
 # Create your tests here.
