@@ -37,3 +37,10 @@ class IndexTestCase(TestCase):
         response = self.client.get('/blog/')
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['article_list'], [article])
+
+    def test_future_article(self):
+        """Articles with pub_date in future shouldn't be appeared in index page"""
+        article = Article.objects.create(pub_date=timezone.now() + timedelta(seconds=1))
+        response = self.client.get('/blog/')
+        self.assertEqual(response.status_code, 200)
+        self.assertQuerysetEqual(response.context['article_list'], [])
