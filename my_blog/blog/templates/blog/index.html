@@ -4,10 +4,12 @@
 
 {% block content %}
     {% for article in article_list %}
-        <h1>
-            <a href="{% url 'blog:detail' article.id %}">{{ article.title }}</a>
-            {% if article.is_add_recently %}<span class="badge bg-secondary">NEW</span>{% endif %}
-        </h1>
-        <p>{{article.text|truncatechars:100}}</p>
+        <div class="card-1">
+            <h1>
+                <a href="{% url 'blog:detail' article.id %}">{{ article.title }}</a>
+                {% if article.is_add_recently %}<span class="badge bg-secondary">NEW</span>{% endif %}
+            </h1>
+            <p>{{article.text|truncatechars:100}}</p>
+        </div>
   {% endfor %}
 {% endblock %}
