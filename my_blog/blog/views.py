@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from django.views.generic import ListView, DetailView
 from .models import Article
 from .forms import NewUserForm
@@ -13,6 +14,10 @@ class IndexView(ListView):
     model = Article
     context_object_name = 'article_list'
     template_name = 'blog/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = {'article_list': Article.objects.filter(pub_date__lte=timezone.now())}
+        return context
 
 
 class ArticleDetailView(DetailView):
