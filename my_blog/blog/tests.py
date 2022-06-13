@@ -49,3 +49,11 @@ class IndexTestCase(TestCase):
         article_past = Article.objects.create(pub_date=timezone.now() - timedelta(seconds=1))
         response = self.client.get('/blog/')
         self.assertQuerysetEqual(response.context['article_list'], [article_past])
+
+    def test_multiply_article(self):
+        """Index page should display all available past article"""
+        article_1 = Article.objects.create(pub_date=timezone.now() - timedelta(seconds=1))
+        article_2 = Article.objects.create(pub_date=timezone.now() - timedelta(days=15))
+        response = self.client.get('/blog/')
+        self.assertQuerysetEqual(response.context['article_list'], [article_1, article_2], ordered=False)
+
