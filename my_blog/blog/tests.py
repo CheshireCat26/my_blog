@@ -44,3 +44,10 @@ class IndexTestCase(TestCase):
         response = self.client.get('/blog/')
         self.assertEqual(response.status_code, 200)
         self.assertQuerysetEqual(response.context['article_list'], [])
+
+    def test_future_and_past_article(self):
+        """If there is future and past article only past should be appeared"""
+        article_future = Article.objects.create(pub_date=timezone.now() + timedelta(seconds=1))
+        article_past = Article.objects.create(pub_date=timezone.now() - timedelta(seconds=1))
+        response = self.client.get('/blog/')
+        self.assertQuerysetEqual(response.context['article_list'], [article_past])
