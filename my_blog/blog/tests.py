@@ -1,4 +1,6 @@
 from django.test import TestCase
+from django.urls import reverse
+
 from .models import Article
 from datetime import timedelta
 from django.utils import timezone
@@ -56,4 +58,14 @@ class IndexTestCase(TestCase):
         article_2 = Article.objects.create(pub_date=timezone.now() - timedelta(days=15))
         response = self.client.get('/blog/')
         self.assertQuerysetEqual(response.context['article_list'], [article_1, article_2], ordered=False)
+
+
+class DetailTestCase(TestCase):
+    def test_article_detail(self):
+        """Detail page should show title and text of the article"""
+        article = Article.objects.create(title="title", text='text', pub_date=timezone.now())
+        response = self.client.get(reverse('blog:detail', args=(article.id, )))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, article.title)
+        self.assertContains(response, article.text)
 
