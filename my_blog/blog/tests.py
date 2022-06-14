@@ -91,3 +91,10 @@ class LoginTestCase(TestCase):
         self.client.login(username='testuser', password='12345')
         response = self.client.get(reverse('blog:login'))
         self.assertContains(response, "You're already logged-in")
+
+
+class RegisterTestCase(TestCase):
+    def test_anonymous_register(self):
+        """Register page should be available for anonymous user"""
+        response = self.client.get(reverse('blog:register'))
+        self.assertEqual(response.status_code, 200)
