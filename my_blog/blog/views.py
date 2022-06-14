@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.generic import ListView, DetailView
@@ -70,6 +71,9 @@ def logout_request(request):
 
 
 def test_panel(request):
+    if not request.user.is_superuser:
+        return HttpResponse('Unauthorized', status=401)
+
     if 'info_message' in request.POST.keys():
         messages.info(request, "Test info message")
     elif 'error_message' in request.POST.keys():

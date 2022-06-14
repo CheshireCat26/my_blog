@@ -108,3 +108,10 @@ class RegisterTestCase(TestCase):
 
         response = self.client.get(reverse('blog:register'))
         self.assertContains(response, "You're already logged-in")
+
+
+class TestPanelTestCase(TestCase):
+    def test_anonymous_test_panel(self):
+        """Test panel shouldn't be available for non-admin user"""
+        response = self.client.get(reverse('blog:test_panel'))
+        self.assertEqual(response.status_code, 401)
