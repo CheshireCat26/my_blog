@@ -72,7 +72,8 @@ def logout_request(request):
 
 def test_panel(request):
     if not request.user.is_superuser:
-        return HttpResponse('Unauthorized', status=401)
+        messages.error(request, 'Unauthorized access')
+        return redirect('blog:index')
 
     if 'info_message' in request.POST.keys():
         messages.info(request, "Test info message")
