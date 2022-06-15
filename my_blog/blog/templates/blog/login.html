@@ -1,5 +1,4 @@
 {% extends 'blog/base.html' %}
-{% load bootstrap5 %}
 
 {% block content %}
     <h1>Login</h1>
@@ -8,10 +7,7 @@
     {% else %}
         <form method="POST">
             {% csrf_token %}
-            {% bootstrap_form form %}
-            {% buttons %}
-                <button type="submit" class="btn btn-primary">Submit</button>
-            {% endbuttons %}
+            {{ form }}
         </form>
     {% endif %}
 {% endblock %}
