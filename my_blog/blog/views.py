@@ -1,12 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.generic import ListView, DetailView
 from .models import Article
 from .forms import NewUserForm, MyAuthenticationForm
-from django.contrib.auth.forms import AuthenticationForm
 
 
 # Create your views here.
