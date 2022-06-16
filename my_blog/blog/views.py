@@ -1,7 +1,16 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail, BadHeaderError
+from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
 from django.utils import timezone
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.views.generic import ListView, DetailView
 from .models import Article
 from .forms import NewUserForm, MyAuthenticationForm
@@ -81,4 +90,31 @@ def test_panel(request):
 
 
 def reset_password(request):
-    return render(request, 'blog/reset_password.html')
+    if request.method == "POST":
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            users = User.objects.filter(Q(email=email))
+            if users.exists():
+                for user in users:
+                    subject = "Password Reset"
+                    email_template = 'blog/password_reset_email.txt'
+                    context = {
+                        "email": user.email,
+                        'domain': '127.0.0.1:8000',
+                        'site_name': 'my_blog',
+                        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'user': user,
+                        'token': default_token_generator.make_token(user),
+                        'protocol': 'http'
+                    }
+                    email = render_to_string(email_template, context)
+                    try:
+                        send_mail(subject, email, 'example@gmail.com', [user.email], fail_silently=False)
+                    except BadHeaderError:
+                        return HttpResponse('Invalid header found.')
+                    messages.info(request, "Mail sent")
+                    return redirect('blog:index')
+
+    form = PasswordResetForm()
+    return render(request, 'blog/reset_password.html', {'form': form})
