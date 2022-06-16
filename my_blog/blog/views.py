@@ -78,3 +78,7 @@ def test_panel(request):
     elif 'error_message' in request.POST.keys():
         messages.error(request, "Test error message")
     return render(request, 'blog/test_panel.html')
+
+
+def reset_password(request):
+    return render(request, 'blog/reset_password.html')
