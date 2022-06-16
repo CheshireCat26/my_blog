@@ -7,7 +7,12 @@
     {% else %}
         <form method="POST">
             {% csrf_token %}
-            {{ form }}
+            {{ form.non_field_errors }}
+            {% for field in form %}
+                    <label class="mt-3" for="{{ field.id_for_label }}"> {{ field.label }}: </label>
+                    {{ field }}
+            {% endfor %}
+            <input type="submit" value="Submit" class="btn btn-primary mt-3">
         </form>
     {% endif %}
 {% endblock %}

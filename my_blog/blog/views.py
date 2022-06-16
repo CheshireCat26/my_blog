@@ -5,7 +5,7 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.generic import ListView, DetailView
 from .models import Article
-from .forms import NewUserForm
+from .forms import NewUserForm, MyAuthenticationForm
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -47,7 +47,7 @@ def register(request):
 
 def login_request(request):
     if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
+        form = MyAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -60,7 +60,7 @@ def login_request(request):
                 messages.error(request, 'Invalid username or password')
         else:
             messages.error(request, 'Invalid username or password')
-    form = AuthenticationForm()
+    form = MyAuthenticationForm()
     return render(request, 'blog/login.html', {'form': form})
 
 
