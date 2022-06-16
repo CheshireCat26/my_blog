@@ -1,5 +1,4 @@
 {% extends 'blog/base.html' %}
-{% load bootstrap5 %}
 
 {% block content %}
     <h1>Register</h1>
@@ -8,10 +7,15 @@
     {% else %}
         <form method="POST">
           {% csrf_token %}
-          {% bootstrap_form form %}
-          {% buttons %}
-              <button type="submit" class="btn btn-primary">Submit</button>
-          {% endbuttons %}
+          {{ form.non_field_errors }}
+          {% for field in form %}
+              <label class="mt-3 form-label" for="{{ field.id_for_label }}"> {{ field.label }}: </label>
+              {{ field }}
+              <div class="small">
+                {{ field.help_text }}
+              </div>
+          {% endfor %}
+          <input type="submit" value="Submit" class="btn btn-primary mt-3">
         </form>
     {% endif %}
 {% endblock %}
