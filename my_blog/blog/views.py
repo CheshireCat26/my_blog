@@ -1,19 +1,20 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.views import PasswordResetConfirmView
 from django.core.mail import send_mail, BadHeaderError
 from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.generic import ListView, DetailView
 from .models import Article
-from .forms import NewUserForm, MyAuthenticationForm
+from .forms import NewUserForm, MyAuthenticationForm, MyPasswordResetForm, MySetPasswordForm
 
 
 # Create your views here.
@@ -91,7 +92,7 @@ def test_panel(request):
 
 def reset_password(request):
     if request.method == "POST":
-        form = PasswordResetForm(request.POST)
+        form = MyPasswordResetForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
             users = User.objects.filter(Q(email=email))
@@ -116,5 +117,15 @@ def reset_password(request):
                     messages.info(request, "Mail sent")
                     return redirect('blog:index')
 
-    form = PasswordResetForm()
+    form = MyPasswordResetForm()
     return render(request, 'blog/reset_password.html', {'form': form})
+
+
+class MyPasswordResetConfirmView(PasswordResetConfirmView):
+    form_class = MySetPasswordForm
+    success_url = reverse_lazy('blog:reset_password_complete')
+
+
+def reset_password_complete(request):
+    messages.info(request, "Password successfully changed")
+    return redirect('blog:index')
