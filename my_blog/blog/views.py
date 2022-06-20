@@ -13,7 +13,7 @@ from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.views.generic import ListView, DetailView
-from .models import Article
+from .models import Article, UsersVotes
 from .forms import NewUserForm, MyAuthenticationForm, MyPasswordResetForm, MySetPasswordForm
 
 
@@ -36,6 +36,13 @@ class ArticleDetailView(DetailView):
 
     def get_queryset(self):
         return Article.objects.filter(pub_date__lte=timezone.now())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        post_votes = UsersVotes.objects.filter(post_id=self.kwargs['pk'])
+        context['votes'] = 0 + post_votes.filter(positive=True).count() - post_votes.filter(positive=False).count()
+        return context
 
 
 def register(request):
