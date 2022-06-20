@@ -7,3 +7,15 @@
     border-color: #1a2167;
     border-radius: 20px;
 }
+
+.upvote-button,.downvote-button {
+    background-color: #424242;
+}
+
+.upvote-button:hover, .upvote-button:focus {
+    background-color: green;
+}
+
+.downvote-button:hover, .downvote-button:focus {
+    background-color: red;
+}
