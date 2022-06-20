@@ -142,5 +142,8 @@ def upvote_post(request, pk):
     if request.user.is_anonymous:
         messages.error(request, "You must be logged in for voting", extra_tags="alert alert-error")
 
-    messages.info(request, "UPVOTE!", extra_tags="alert alert-info")
+    if not UsersVotes.objects.filter(user_id=request.user).filter(post_id=pk):
+        vote = UsersVotes(user_id=request.user, post_id=Article.objects.get(pk=pk), positive=True)
+        vote.save()
+
     return redirect("blog:detail", pk)
