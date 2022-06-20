@@ -44,10 +44,10 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            messages.success(request, "Registration successful")
+            messages.success(request, "Registration successful", extra_tags="alert alert-success")
             return redirect('blog:index')
 
-        messages.error(request, "Unsuccessful registration. Invalid information.")
+        messages.error(request, "Unsuccessful registration. Invalid information.", extra_tags="alert alert-warning")
 
     form = NewUserForm()
     return render(request, 'blog/register.html', {'form': form})
@@ -62,31 +62,31 @@ def login_request(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.info(request, f"Welcome {username}")
+                messages.info(request, f"Welcome {username}", extra_tags="alert alert-info")
                 return redirect('blog:index')
             else:
-                messages.error(request, 'Invalid username or password')
+                messages.error(request, 'Invalid username or password', extra_tags="alert alert-warning")
         else:
-            messages.error(request, 'Invalid username or password')
+            messages.error(request, 'Invalid username or password', extra_tags="alert alert-warning")
     form = MyAuthenticationForm()
     return render(request, 'blog/login.html', {'form': form})
 
 
 def logout_request(request):
     logout(request)
-    messages.info(request, "You have successfully logged out")
+    messages.info(request, "You have successfully logged out", extra_tags="alert alert-info")
     return redirect('blog:index')
 
 
 def test_panel(request):
     if not request.user.is_superuser:
-        messages.error(request, 'Unauthorized access')
+        messages.error(request, 'Unauthorized access', extra_tags="alert alert-warning")
         return redirect('blog:index')
 
     if 'info_message' in request.POST.keys():
-        messages.info(request, "Test info message")
+        messages.info(request, "Test info message", extra_tags="alert alert-info")
     elif 'error_message' in request.POST.keys():
-        messages.error(request, "Test error message")
+        messages.error(request, "Test error message", extra_tags="alert alert-warning")
     return render(request, 'blog/test_panel.html')
 
 
@@ -114,7 +114,7 @@ def reset_password(request):
                         send_mail(subject, email, 'example@gmail.com', [user.email], fail_silently=False)
                     except BadHeaderError:
                         return HttpResponse('Invalid header found.')
-                    messages.info(request, "Mail sent")
+                    messages.info(request, "Mail sent", extra_tags="alert alert-info")
                     return redirect('blog:index')
 
     form = MyPasswordResetForm()
@@ -127,5 +127,5 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
 
 
 def reset_password_complete(request):
-    messages.info(request, "Password successfully changed")
+    messages.info(request, "Password successfully changed", extra_tags="alert alert-info")
     return redirect('blog:index')
