@@ -132,5 +132,8 @@ def reset_password_complete(request):
 
 
 def upvote_post(request, pk):
+    if request.user.is_anonymous:
+        messages.error(request, "You must be logged in for voting", extra_tags="alert alert-error")
+
     messages.info(request, "UPVOTE!", extra_tags="alert alert-info")
     return redirect("blog:detail", pk)
