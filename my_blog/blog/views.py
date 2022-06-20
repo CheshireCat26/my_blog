@@ -129,3 +129,8 @@ class MyPasswordResetConfirmView(PasswordResetConfirmView):
 def reset_password_complete(request):
     messages.info(request, "Password successfully changed", extra_tags="alert alert-info")
     return redirect('blog:index')
+
+
+def upvote_post(request, pk):
+    messages.info(request, "UPVOTE!", extra_tags="alert alert-info")
+    return redirect("blog:detail", pk)
