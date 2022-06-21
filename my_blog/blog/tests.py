@@ -177,3 +177,19 @@ class VotePostTestCase(TestCase):
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "False"}))
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "False"}))
         self.assertEqual(UsersVotes.objects.filter(post_id=article).filter(positive=False).count(), 0)
+
+    def test_one_pos_vote_one_neg_vote_from_one_user(self):
+        """If user send one positive vote and then one negative vote (or vice-versa) second one delete first one"""
+        create_user('testuser', '12345')
+        self.client.login(username='testuser', password='12345')
+
+        article = Article(pub_date=timezone.now())
+        article.save()
+
+        self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
+        self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "False"}))
+        self.assertEqual(UsersVotes.objects.filter(post_id=article).filter(positive=False).count(), 0)
+
+        self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "False"}))
+        self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
+        self.assertEqual(UsersVotes.objects.filter(post_id=article).filter(positive=False).count(), 0)
