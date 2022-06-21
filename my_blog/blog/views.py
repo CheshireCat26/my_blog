@@ -43,9 +43,10 @@ class ArticleDetailView(DetailView):
         post_votes = UsersVotes.objects.filter(post_id=self.kwargs['pk'])
         context['votes'] = post_votes.filter(positive=True).count() - post_votes.filter(positive=False).count()
 
-        user_vote = post_votes.filter(user_id=self.request.user).values('positive')
-        if user_vote:
-            context['user_vote'] = post_votes.filter(user_id=self.request.user).values('positive')[0]
+        if not self.request.user.is_anonymous:
+            user_vote = post_votes.filter(user_id=self.request.user).values('positive')
+            if user_vote:
+                context['user_vote'] = post_votes.filter(user_id=self.request.user).values('positive')[0]
         return context
 
 
@@ -145,6 +146,7 @@ def reset_password_complete(request):
 def vote_post(request, pk, positive):
     if request.user.is_anonymous:
         messages.error(request, "You must be logged in for voting", extra_tags="alert alert-error")
+        return redirect('blog:detail', pk)
 
     if not UsersVotes.objects.filter(user_id=request.user).filter(post_id=pk):
         vote = UsersVotes(user_id=request.user, post_id=Article.objects.get(pk=pk), positive=bool(positive == "True"))

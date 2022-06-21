@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
-from .models import Article
+from .models import Article, UsersVotes
 from datetime import timedelta
 from django.utils import timezone
 
@@ -114,4 +114,14 @@ class TestPanelTestCase(TestCase):
     def test_anonymous_test_panel(self):
         """Test panel shouldn't be available for non-admin user"""
         response = self.client.get(reverse('blog:test_panel'))
-        self.assertEqual(response.status_code, 401)
+        self.assertURLEqual(response.url, reverse('blog:index'))
+
+
+class VotePostTestCase(TestCase):
+    def test_anonymous_vote(self):
+        """Anonymous users can't vote"""
+        article = Article(pub_date=timezone.now())
+        article.save()
+
+        response = self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
+        self.assertEqual(UsersVotes.objects.filter(post_id=article).count(), 0)
