@@ -42,6 +42,10 @@ class ArticleDetailView(DetailView):
 
         post_votes = UsersVotes.objects.filter(post_id=self.kwargs['pk'])
         context['votes'] = post_votes.filter(positive=True).count() - post_votes.filter(positive=False).count()
+
+        user_vote = post_votes.filter(user_id=self.request.user).values('positive')
+        if user_vote:
+            context['user_vote'] = post_votes.filter(user_id=self.request.user).values('positive')[0]
         return context
 
 

@@ -12,6 +12,14 @@
     background-color: #424242;
 }
 
+.upvote-button-selected {
+    background-color: green;
+}
+
+.downvote-button-selected {
+    background-color: red;
+}
+
 .upvote-button:hover, .upvote-button:focus {
     background-color: green;
 }
@@ -19,3 +27,4 @@
 .downvote-button:hover, .downvote-button:focus {
     background-color: red;
 }
+
