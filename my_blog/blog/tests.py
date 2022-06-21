@@ -193,3 +193,18 @@ class VotePostTestCase(TestCase):
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "False"}))
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
         self.assertEqual(UsersVotes.objects.filter(post_id=article).filter(positive=False).count(), 0)
+
+    def test_two_votes_from_two_users(self):
+        """It should save all votes from different users"""
+        article = Article(pub_date=timezone.now())
+        article.save()
+
+        create_user("user1", "123")
+        self.client.login(username='user1', password='123')
+        self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
+
+        create_user("user2", "123")
+        self.client.login(username='user2', password='123')
+        self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
+
+        self.assertEqual(UsersVotes.objects.filter(post_id=article).count(), 2)
