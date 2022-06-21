@@ -9,6 +9,11 @@ from django.utils import timezone
 
 # Create your tests here.
 
+def create_user(username, password):
+    user = User.objects.create(username='username')
+    user.set_password('password')
+    user.save()
+
 class ArticleTestCase(TestCase):
     def test_is_add_recently_for_article_in_long_past(self):
         """Articles with pub_date > 7 days from now isn't add recently"""
@@ -125,3 +130,13 @@ class VotePostTestCase(TestCase):
 
         response = self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
         self.assertEqual(UsersVotes.objects.filter(post_id=article).count(), 0)
+
+    def one_vote_from_one_user(self):
+        create_user('testuser', '12345')
+        self.client.login(username='testuser', password='12345')
+
+        article = Article(pub_date=timezone.now())
+        article.save()
+
+        response = self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
+        self.assertEqual(UsersVotes.objects.filter(post_id=article).count(), 1)
