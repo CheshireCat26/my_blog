@@ -143,7 +143,6 @@ def vote_post(request, pk, positive):
         messages.error(request, "You must be logged in for voting", extra_tags="alert alert-error")
 
     if not UsersVotes.objects.filter(user_id=request.user).filter(post_id=pk):
-        messages.info(request, positive, extra_tags="alert alert-info")
         vote = UsersVotes(user_id=request.user, post_id=Article.objects.get(pk=pk), positive=bool(positive == "True"))
         vote.save()
     else:
