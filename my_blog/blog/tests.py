@@ -164,7 +164,7 @@ class VotePostTestCase(TestCase):
 
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
-        self.assertEqual(UsersVotes.objects.filter(post_id=article).filter(positive=False).count(), 0)
+        self.assertEqual(UsersVotes.objects.filter(post_id=article).count(), 0)
 
     def test_two_negative_votes_from_one_user(self):
         """If one user send two negative votes for one article second one delete first one"""
@@ -176,7 +176,7 @@ class VotePostTestCase(TestCase):
 
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "False"}))
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "False"}))
-        self.assertEqual(UsersVotes.objects.filter(post_id=article).filter(positive=False).count(), 0)
+        self.assertEqual(UsersVotes.objects.filter(post_id=article).count(), 0)
 
     def test_one_pos_vote_one_neg_vote_from_one_user(self):
         """If user send one positive vote and then one negative vote (or vice-versa) second one delete first one"""
@@ -188,11 +188,11 @@ class VotePostTestCase(TestCase):
 
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "False"}))
-        self.assertEqual(UsersVotes.objects.filter(post_id=article).filter(positive=False).count(), 0)
+        self.assertEqual(UsersVotes.objects.filter(post_id=article).count(), 0)
 
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "False"}))
         self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
-        self.assertEqual(UsersVotes.objects.filter(post_id=article).filter(positive=False).count(), 0)
+        self.assertEqual(UsersVotes.objects.filter(post_id=article).count(), 0)
 
     def test_two_votes_from_two_users(self):
         """It should save all votes from different users"""
