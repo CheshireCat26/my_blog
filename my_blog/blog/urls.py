@@ -14,5 +14,5 @@ urlpatterns = [
          views.MyPasswordResetConfirmView.as_view(template_name='blog/reset_password_confirm.html'),
          name='reset_password_confirm'),
     path('reset_password_complete/', views.reset_password_complete, name='reset_password_complete'),
-    path('upvote_post/<int:pk>/', views.upvote_post, name='upvote_post')
+    path('vote_post/<int:pk>/<str:positive>', views.vote_post, name='vote_post')
 ]
