@@ -145,5 +145,7 @@ def upvote_post(request, pk):
     if not UsersVotes.objects.filter(user_id=request.user).filter(post_id=pk):
         vote = UsersVotes(user_id=request.user, post_id=Article.objects.get(pk=pk), positive=True)
         vote.save()
+    else:
+        UsersVotes.objects.get(user_id=request.user, post_id=Article.objects.get(pk=pk)).delete()
 
     return redirect("blog:detail", pk)
