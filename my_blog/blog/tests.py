@@ -133,7 +133,7 @@ class VotePostTestCase(TestCase):
         self.assertEqual(UsersVotes.objects.filter(post_id=article).count(), 0)
 
     def test_one_positive_vote_from_one_user(self):
-        """One positive vote should add 1 to article's votes"""
+        """One positive vote should add 1 positive vote to article's votes"""
         create_user('testuser', '12345')
         self.client.login(username='testuser', password='12345')
 
@@ -141,4 +141,4 @@ class VotePostTestCase(TestCase):
         article.save()
 
         response = self.client.get(reverse('blog:vote_post', kwargs={'pk': 1, 'positive': "True"}))
-        self.assertEqual(UsersVotes.objects.filter(post_id=article).count(), 1)
+        self.assertEqual(UsersVotes.objects.filter(post_id=article).filter(positive=True).count(), 1)
